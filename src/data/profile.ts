@@ -13,5 +13,7 @@ export const profile = {
   links: [
     { label: 'GitHub', href: 'https://github.com/canoojson' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/sergio-cano-pomer-a51440259/' },
+    { label: 'Instagram', href: 'https://www.instagram.com/canoo.json/' },
+    { label: 'Bluesky', href: 'https://bsky.app/profile/canoojson.dev' },
   ],
 }
