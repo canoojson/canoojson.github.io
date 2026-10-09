@@ -1,0 +1,10 @@
+{
+  // Worker que dice qué suena en Spotify, para el banner de Sobre mí
+  "name": "canoojson-music",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "routes": [{ "pattern": "music.canoojson.dev", "custom_domain": true }],
+  // refresh token de Spotify (lo guarda scripts/authorize.mjs y se actualiza si Spotify lo renueva)
+  "kv_namespaces": [{ "binding": "MUSIC", "id": "7b98cd476b004437b55a1eb20c0acbed" }],
+  "observability": { "enabled": true }
+}

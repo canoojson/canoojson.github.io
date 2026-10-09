@@ -30,6 +30,14 @@
   color-scheme: dark;
 }
 
+/* El acento puede cambiar con la canción (src/music/accent.ts): registrarlo como color
+   permite que el cambio sea una transición suave en toda la página. */
+@property --accent { syntax: '<color>'; inherits: true; initial-value: #dc2626; }
+@property --accent-hover { syntax: '<color>'; inherits: true; initial-value: #b91c1c; }
+@property --accent-soft { syntax: '<color>'; inherits: true; initial-value: #fef2f2; }
+:root { transition: --accent 1.2s ease, --accent-hover 1.2s ease, --accent-soft 1.2s ease; }
+@media (prefers-reduced-motion: reduce) { :root { transition: none; } }
+
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -156,6 +164,11 @@ a:hover { color: var(--accent-hover); }
 .dot-nav a[aria-current] { color: var(--accent); }
 .dot-nav a[aria-current] .dot-nav-dot { background: var(--accent); border-color: var(--accent); transform: scale(1.35); }
 
+/* en pantallas medianas el contenido llega hasta los puntos: se les deja hueco a ellos y a su etiqueta */
+@media (min-width: 641px) and (max-width: 1440px) {
+  .snap-section:not(.snap-home), main .page { padding-right: 5.5rem; }
+}
+
 @media (max-width: 640px) {
   /* deja un carril a la derecha para los puntos y el engranaje */
   .snap-section:not(.snap-home), main .page { padding-right: 1.25rem; }
@@ -276,6 +289,125 @@ a:hover { color: var(--accent-hover); }
 .about p { color: var(--muted); }
 @media (max-width: 720px) { .about { grid-template-columns: 1fr; gap: 1.5rem; } }
 
+
+/* ---------- Música: banner y tinte de Sobre mí ---------- */
+/*
+ * Luz con el color de la portada, que sale del banner de la canción (al final de Sobre mí):
+ * máxima detrás del banner, sube por toda la sección cada vez más tenue hasta asomar por la
+ * parte baja de Inicio (invita a bajar) y se difumina al entrar en Proyectos.
+ * --light-x / --light-y: centro del banner, los pone AboutSection.
+ * La capa empieza 60svh por encima de la sección y acaba 40svh por debajo.
+ */
+.snap-about { position: relative; }
+.snap-about::before {
+  --glow: color-mix(in srgb, var(--music-tint, transparent) 26%, transparent);
+  --cx: var(--light-x, 30%);
+  --cy: calc(var(--light-y, 100%) + 60svh);
+  content: '';
+  position: absolute;
+  top: -60svh;
+  bottom: -40svh;
+  /* 100vw incluye la barra de scroll: --scrollbar (main.tsx) la descuenta */
+  left: calc(50% - 50vw + var(--scrollbar, 0px) / 2);
+  right: calc(50% - 50vw + var(--scrollbar, 0px) / 2);
+  z-index: -1;
+  pointer-events: none;
+  /* una sola elipse centrada en el banner cuyo radio vertical llega hasta arriba de la capa */
+  background: radial-gradient(
+    75vw var(--cy) at var(--cx) var(--cy),
+    var(--glow) 0%,
+    color-mix(in srgb, var(--glow) 78%, transparent) 25%,
+    color-mix(in srgb, var(--glow) 52%, transparent) 55%,
+    color-mix(in srgb, var(--glow) 32%, transparent) 80%,
+    color-mix(in srgb, var(--glow) 14%, transparent) 93%,
+    transparent 100%
+  );
+  /* por debajo del banner se apaga antes, para fundirse con Proyectos sin corte */
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 40svh), transparent 100%);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+[data-theme='dark'] .snap-about::before {
+  --glow: color-mix(in srgb, var(--music-tint, transparent) 42%, transparent);
+}
+.snap-about.tinted::before { opacity: 1; }
+
+.now-playing {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 560px;
+  margin: 0;
+  padding: 0.75rem 1rem 0.75rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(12px);
+  color: var(--text);
+  transition: border-color 0.2s;
+}
+.now-playing:hover { color: var(--text); border-color: var(--accent); }
+.now-playing-cover {
+  flex: none;
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  box-shadow: 0 8px 24px -10px color-mix(in srgb, var(--music-tint, #000) 60%, transparent);
+}
+.now-playing-cover img { width: 100%; height: 100%; object-fit: cover; }
+.now-playing-cover svg { width: 32px; height: 32px; fill: var(--accent); }
+.now-playing-body { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.now-playing-status { display: flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 600; color: var(--accent); }
+.now-playing-title, .now-playing-artist { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.now-playing-title { font-weight: 700; font-size: 1.05rem; }
+.now-playing-artist { color: var(--muted); font-size: 0.9rem; }
+.now-playing-source { flex: none; display: flex; align-items: center; gap: 0.35rem; color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+.now-playing-source svg { width: 18px; height: 18px; fill: #1db954; }
+
+/* lo más escuchado: lista numerada bajo el banner */
+.top-tracks { max-width: 560px; margin-top: 1.75rem; }
+.top-tracks .label { margin: 0 0 0.6rem; }
+/* minmax(0, …): los títulos largos se recortan con … en vez de ensanchar la página */
+.top-tracks ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+.top-tracks a { display: flex; align-items: center; gap: 0.85rem; padding: 0.4rem 0.5rem; border-radius: 10px; color: var(--text); transition: background-color 0.15s; }
+.top-tracks a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.top-rank { flex: none; width: 1.25rem; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); }
+.top-tracks img { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; flex: none; }
+.top-body { display: flex; flex-direction: column; min-width: 0; }
+.top-title, .top-artist { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-title { font-weight: 600; font-size: 0.95rem; }
+.top-artist { color: var(--muted); font-size: 0.85rem; }
+
+/* barras de ecualizador mientras suena */
+.equalizer { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.equalizer i { width: 3px; height: 100%; border-radius: 1px; background: currentColor; animation: eq 0.9s ease-in-out infinite; transform-origin: bottom; }
+.equalizer i:nth-child(2) { animation-delay: -0.3s; }
+.equalizer i:nth-child(3) { animation-delay: -0.6s; }
+@keyframes eq { 0%, 100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) { .equalizer i { animation: none; transform: scaleY(0.6); } }
+
+@media (max-width: 640px) {
+  .now-playing { gap: 0.75rem; }
+  .now-playing-cover { width: 56px; height: 56px; }
+  .now-playing-source span { display: none; }
+}
+
+/* ---------- Fuera del código: juegos y música ---------- */
+/* minmax(0, …): sin él, el texto en una línea del banner ensancha la rejilla en móvil */
+.offwork { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+.block-header { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.9rem; }
+.block-header .label, .music .label { margin: 0; }
+.music .label { margin-bottom: 0.9rem; }
+.block-link { font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
+.game-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+.game-grid a { display: block; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+.game-grid a:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 12px 28px -14px color-mix(in srgb, var(--accent) 45%, transparent); }
+.game-grid img { width: 100%; height: auto; aspect-ratio: 460 / 215; object-fit: cover; }
+@media (max-width: 640px) { .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; } }
 
 /* ---------- Timeline ---------- */
 .timeline { list-style: none; margin: 0; padding: 0; max-width: 720px; }

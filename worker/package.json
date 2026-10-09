@@ -1,0 +1,14 @@
+{
+  "name": "canoojson-music",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "authorize": "node scripts/authorize.mjs",
+    "types": "wrangler types"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "wrangler": "^4.149.0"
+  }
+}

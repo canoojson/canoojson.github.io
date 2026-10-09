@@ -4,8 +4,8 @@ import { profile } from '../data/profile'
 import { useLang } from '../i18n/useLang'
 
 const actions = [
-  { id: 'projects', primary: true },
   { id: 'about', primary: false },
+  { id: 'projects', primary: true },
   { id: 'contact', primary: false },
 ] as const
 

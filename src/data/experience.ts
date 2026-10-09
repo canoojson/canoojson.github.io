@@ -4,11 +4,11 @@ type Localized = Record<Lang, string>
 
 export interface Role {
   title: Localized
-  contract: Localized
-  /** 'YYYY-MM'; sin `end` es el puesto actual */
+  contract?: Localized
+  /** 'YYYY-MM' o solo 'YYYY'; sin `end` es el puesto actual */
   start: string
   end?: string
-  mode: Localized
+  mode?: Localized
 }
 
 export interface Experience {
@@ -40,5 +40,18 @@ export const experience: Experience[] = [
       { title: developer, contract: { es: 'Contrato temporal', val: 'Contracte temporal', en: 'Temporary contract' }, start: '2025-05', end: '2026-07', mode: hybrid },
       { title: developer, contract: { es: 'Prácticas', val: 'Pràctiques', en: 'Internship' }, start: '2025-03', end: '2025-05', mode: onSite },
     ],
+  },
+]
+
+export const volunteering: Experience[] = [
+  {
+    company: 'Grupo Scout Impeesa 243',
+    location: { es: 'Burjassot, Valencia', val: 'Burjassot, València', en: 'Burjassot, Valencia' },
+    description: {
+      es: 'Scout desde los 9 años: entré como lobato y he pasado por todas las secciones del grupo hasta convertirme en scouter.',
+      val: "Scout des dels 9 anys: vaig entrar com a llobató i he passat per totes les seccions del grup fins a convertir-me en scouter.",
+      en: 'A scout since I was 9: I joined as a cub and went through every section of the group until becoming a scout leader.',
+    },
+    roles: [{ title: { es: 'Scouter de tropa', val: 'Scouter de tropa', en: 'Troop scout leader' }, start: '2025' }],
   },
 ]
