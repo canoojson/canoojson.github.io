@@ -26,6 +26,9 @@ jobs:
       - run: npm ci
       # el build genera también una página por ruta y 404.html (scripts/spa-routes.mjs)
       - run: npm run build
+        env:
+          # vite.config.ts consulta la última release de cada proyecto
+          GITHUB_TOKEN: ${{ github.token }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

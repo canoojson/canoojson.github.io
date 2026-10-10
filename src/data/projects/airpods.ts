@@ -3,7 +3,6 @@ import type { ProjectDetail } from '../projects.ts'
 const dir = '/projects/airpods'
 
 export const airpodsDetail: ProjectDetail = {
-  release: { version: 'v0.1.5', url: 'https://github.com/canoojson/airpodsPopUpOnArchLinux/releases/latest' },
   license: 'GPL-3.0',
   youtube: { id: 'zYiF-NJgy94', poster: `${dir}/youtube.webp` },
   manualUrl: 'https://github.com/canoojson/airpodsPopUpOnArchLinux#readme',

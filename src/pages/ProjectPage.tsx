@@ -17,6 +17,8 @@ export function ProjectPage() {
   const project = findProject(slug)
   if (!project) return <NotFound />
   const d = project.detail
+  // la consulta GitHub el build (vite.config.ts)
+  const release = __RELEASES__[project.repo]
 
   return (
     <article className="page project-page">
@@ -33,9 +35,9 @@ export function ProjectPage() {
           <a href={`https://github.com/canoojson/${project.repo}`} target="_blank" rel="noreferrer" className="button button-primary">
             {t('project.repo')}
           </a>
-          {d?.release && (
-            <a href={d.release.url} target="_blank" rel="noreferrer" className="button">
-              {t('project.release')} · {d.release.version}
+          {release && (
+            <a href={`https://github.com/canoojson/${project.repo}/releases/latest`} target="_blank" rel="noreferrer" className="button">
+              {t('project.release')} · {release}
             </a>
           )}
         </div>

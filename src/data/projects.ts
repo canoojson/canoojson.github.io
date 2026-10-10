@@ -22,7 +22,6 @@ export interface Demo {
 
 /** Contenido de la ficha del proyecto; todo es opcional */
 export interface ProjectDetail {
-  release?: { version: string; url: string }
   /** vídeo de presentación en YouTube; poster local para no cargar nada de YouTube hasta pulsar */
   youtube?: { id: string; poster: string }
   license?: string
