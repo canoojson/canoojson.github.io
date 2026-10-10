@@ -1,5 +1,6 @@
 import type { Lang } from '../i18n/ui'
 import { airpodsDetail } from './projects/airpods.ts'
+import { reparaticDetail } from './projects/reparatic.ts'
 
 export type Localized = Record<Lang, string>
 
@@ -30,7 +31,8 @@ export interface ProjectDetail {
   screenshots?: Media[]
   options?: { title: Localized; items: { label: Localized; text: Localized }[] }
   commands?: { title: Localized; lines: { code: string; text: Localized }[] }
-  install?: { command: string; note: Localized; compat: { label: Localized; value: Localized }[] }
+  /** command: una sola orden para copiar; steps: pasos numerados cuando la instalación no es un comando */
+  install?: { command?: string; steps?: Localized[]; note: Localized; compat: { label: Localized; value: Localized }[] }
   manualUrl?: string
 }
 
@@ -67,14 +69,14 @@ export const projects: Project[] = [
     slug: 'reparatic',
     name: 'ReparaTIC',
     repo: 'ReparaTIC',
-    tech: ['Kotlin', 'Jetpack Compose', 'Spring Boot', 'MySQL'],
+    tech: ['Kotlin', 'Jetpack Compose', 'Material 3', 'Spring Boot', 'Java', 'MySQL', 'Docker'],
     summary: {
       es: 'App Android y API REST para gestionar incidencias informáticas en centros educativos.',
       val: 'Aplicació Android i API REST per a gestionar incidències informàtiques en centres educatius.',
       en: 'Android app and REST API to manage IT incidents in schools.',
     },
-    images: [raw('ReparaTIC', 'master', 'app/src/main/ic_launcher-playstore.png')],
-    imageFit: 'contain',
+    images: ['/projects/reparatic/portada.webp'],
+    detail: reparaticDetail,
   },
   {
     slug: 'web-scouts',

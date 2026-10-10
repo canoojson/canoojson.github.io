@@ -569,6 +569,8 @@ a:hover { color: var(--accent-hover); }
 .shots .shot-wide { grid-column: 1 / -1; }
 .shots .shot-wide button { aspect-ratio: auto; padding: 1.25rem; }
 .shots .shot-wide img { height: auto; }
+.shots .shot-tall button { aspect-ratio: auto; }
+.shots .shot-tall img { height: auto; }
 
 .lightbox { padding: 0; border: 0; background: transparent; max-width: min(1100px, 94vw); max-height: 92vh; overflow: visible; }
 .lightbox::backdrop { background: rgb(0 0 0 / 0.75); backdrop-filter: blur(4px); }
@@ -597,6 +599,9 @@ a:hover { color: var(--accent-hover); }
 .command code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; scrollbar-width: thin; }
 .command .button { flex: none; height: 38px; }
 .install-note { margin: 0.9rem 0 1.75rem; max-width: 70ch; }
+.install-steps { margin: 0; padding: 0; list-style: none; counter-reset: paso; display: grid; gap: 0.75rem; max-width: 70ch; }
+.install-steps li { counter-increment: paso; display: grid; grid-template-columns: 2rem minmax(0, 1fr); align-items: baseline; }
+.install-steps li::before { content: counter(paso); font-family: var(--font-mono); font-weight: 600; color: var(--accent); }
 .compat { max-width: 640px; }
 
 @media (max-width: 760px) {

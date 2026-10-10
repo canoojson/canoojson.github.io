@@ -17,8 +17,8 @@ export function Gallery({ items }: { items: Media[] }) {
     <>
       <ul className="shots">
         {items.map((item) => (
-          // las capturas muy apaisadas (terminal, barra) ocupan toda la fila
-          <li key={item.src} className={item.width / item.height > 2 ? 'shot-wide' : undefined}>
+          // las capturas muy apaisadas (terminal, barra) ocupan toda la fila; las de móvil, su propia proporción
+          <li key={item.src} className={item.width / item.height > 2 ? 'shot-wide' : item.height / item.width > 1.5 ? 'shot-tall' : undefined}>
             <button type="button" onClick={() => show(item)} aria-label={`${t('project.enlarge')}: ${item.caption[lang]}`}>
               <img
                 src={item.src}

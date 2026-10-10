@@ -129,7 +129,14 @@ export function ProjectPage() {
       {d?.install && (
         <section className="section">
           <h2>{t('project.install')}</h2>
-          <CopyCommand command={d.install.command} />
+          {d.install.command && <CopyCommand command={d.install.command} />}
+          {d.install.steps && (
+            <ol className="install-steps">
+              {d.install.steps.map((step) => (
+                <li key={step.es}>{step[lang]}</li>
+              ))}
+            </ol>
+          )}
           <p className="muted install-note">{d.install.note[lang]}</p>
           <h3 className="label">{t('project.compat')}</h3>
           <dl className="option-list compat">
