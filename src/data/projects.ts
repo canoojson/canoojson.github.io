@@ -1,6 +1,38 @@
 import type { Lang } from '../i18n/ui'
+import { airpodsDetail } from './projects/airpods.ts'
 
-type Localized = Record<Lang, string>
+export type Localized = Record<Lang, string>
+
+export interface Media {
+  src: string
+  width: number
+  height: number
+  caption: Localized
+}
+
+export interface Demo {
+  src: string
+  poster: string
+  width: number
+  height: number
+  title: Localized
+  text: Localized
+}
+
+/** Contenido de la ficha del proyecto; todo es opcional */
+export interface ProjectDetail {
+  release?: { version: string; url: string }
+  /** vídeo de presentación en YouTube; poster local para no cargar nada de YouTube hasta pulsar */
+  youtube?: { id: string; poster: string }
+  license?: string
+  demos?: Demo[]
+  features?: { title: Localized; text: Localized }[]
+  screenshots?: Media[]
+  options?: { title: Localized; items: { label: Localized; text: Localized }[] }
+  commands?: { title: Localized; lines: { code: string; text: Localized }[] }
+  install?: { command: string; note: Localized; compat: { label: Localized; value: Localized }[] }
+  manualUrl?: string
+}
 
 export interface Project {
   slug: string
@@ -11,24 +43,25 @@ export interface Project {
   images: string[]
   /** 'contain' para iconos y logos que no deben recortarse */
   imageFit?: 'cover' | 'contain'
+  detail?: ProjectDetail
 }
 
 const raw = (repo: string, branch: string, path: string) =>
   `https://raw.githubusercontent.com/canoojson/${repo}/${branch}/${encodeURI(path)}`
 
-// Contenido provisional: se completa en la fase de contenido.
 export const projects: Project[] = [
   {
     slug: 'airpods-linux',
     name: 'AirPods PopUp on Arch Linux',
     repo: 'airpodsPopUpOnArchLinux',
-    tech: ['Shell', 'Python', 'Luau', 'BLE', 'BlueZ'],
+    tech: ['Python', 'BlueZ', 'BLE', 'D-Bus', 'Luau', 'Shell'],
     summary: {
       es: 'Batería de los AirPods en Linux, incluso con la caja cerrada, y popup al estilo iOS al abrir la caja.',
       val: "Bateria dels AirPods en Linux, fins i tot amb la caixa tancada, i finestra emergent a l'estil d'iOS en obrir la caixa.",
       en: 'AirPods battery on Linux, even with the case closed, plus an iOS-style popup when the case opens.',
     },
-    images: [],
+    images: ['/projects/airpods/youtube.webp'],
+    detail: airpodsDetail,
   },
   {
     slug: 'reparatic',
