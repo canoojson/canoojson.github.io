@@ -12,6 +12,7 @@ const index = join(dist, 'index.html')
 const routes = languages.flatMap((lang) => [
   ...sections.map((s) => (s === 'home' ? lang : `${lang}/${s}`)),
   ...projects.map((p) => `${lang}/projects/${p.slug}`),
+  ...projects.filter((p) => p.detail?.manualPage).map((p) => `${lang}/projects/${p.slug}/manual`),
 ])
 
 for (const route of routes) {

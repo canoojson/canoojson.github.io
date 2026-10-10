@@ -1,10 +1,13 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Navigate, Route, Routes, useParams } from 'react-router'
 import { Layout } from './components/Layout'
 import { fallbackLang, isLang, langFromTag, locales } from './i18n/ui'
 import { Home } from './pages/Home'
 import { NotFound } from './pages/NotFound'
 import { ProjectPage } from './pages/ProjectPage'
+
+// el manual (y su conversor de Markdown) solo se descarga al abrirlo
+const ManualPage = lazy(() => import('./pages/ManualPage').then((m) => ({ default: m.ManualPage })))
 
 /** Idioma elegido a mano o, si no hay, el primero soportado de los preferidos del navegador. */
 function preferredLang() {
@@ -32,6 +35,14 @@ export default function App() {
       <Route path="/" element={<Navigate to={`/${preferredLang()}`} replace />} />
       <Route path=":lang" element={<LangGuard />}>
         <Route path="projects/:slug" element={<ProjectPage />} />
+        <Route
+          path="projects/:slug/manual"
+          element={
+            <Suspense>
+              <ManualPage />
+            </Suspense>
+          }
+        />
         <Route path=":section?" element={<Home />} />
         <Route path="*" element={<NotFound />} />
       </Route>

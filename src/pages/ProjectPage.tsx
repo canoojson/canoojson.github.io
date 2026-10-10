@@ -1,4 +1,4 @@
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { BackLink } from '../components/Layout'
 import { CopyCommand } from '../components/project/CopyCommand'
 import { DemoVideo } from '../components/project/DemoVideo'
@@ -32,15 +32,18 @@ export function ProjectPage() {
           ))}
         </ul>
         <div className="hero-actions">
-          <a href={`https://github.com/canoojson/${project.repo}`} target="_blank" rel="noreferrer" className="button button-primary">
-            {t('project.repo')}
-          </a>
+          {!project.privateRepo && (
+            <a href={`https://github.com/canoojson/${project.repo}`} target="_blank" rel="noreferrer" className="button button-primary">
+              {t('project.repo')}
+            </a>
+          )}
           {release && (
             <a href={`https://github.com/canoojson/${project.repo}/releases/latest`} target="_blank" rel="noreferrer" className="button">
               {t('project.release')} · {release}
             </a>
           )}
         </div>
+        {project.privateRepo && <p className="project-meta">{t('project.private')}</p>}
         {d?.license && (
           <p className="project-meta">
             {t('project.license')}: {d.license}
@@ -154,7 +157,11 @@ export function ProjectPage() {
 
       <section className="section">
         <h2>{t('project.manual')}</h2>
-        {d?.manualUrl ? (
+        {d?.manualPage ? (
+          <Link to={`/${lang}/projects/${project.slug}/manual`} className="button">
+            {t('project.manualRead')} →
+          </Link>
+        ) : d?.manualUrl ? (
           <a href={d.manualUrl} target="_blank" rel="noreferrer" className="button">
             {t('project.manualFull')} →
           </a>

@@ -33,6 +33,8 @@ export interface ProjectDetail {
   /** command: una sola orden para copiar; steps: pasos numerados cuando la instalación no es un comando */
   install?: { command?: string; steps?: Localized[]; note: Localized; compat: { label: Localized; value: Localized }[] }
   manualUrl?: string
+  /** manual publicado en el portfolio (src/manuals/<slug>.md), en /<idioma>/projects/<slug>/manual */
+  manualPage?: boolean
 }
 
 export interface Project {
@@ -44,6 +46,8 @@ export interface Project {
   images: string[]
   /** 'contain' para iconos y logos que no deben recortarse */
   imageFit?: 'cover' | 'contain'
+  /** repositorio privado: la ficha no enlaza al código */
+  privateRepo?: boolean
   detail?: ProjectDetail
 }
 
@@ -75,6 +79,7 @@ export const projects: Project[] = [
       en: 'Android app and REST API to manage IT incidents in schools.',
     },
     images: ['/projects/reparatic/portada.webp'],
+    privateRepo: true,
     detail: reparaticDetail,
   },
   {

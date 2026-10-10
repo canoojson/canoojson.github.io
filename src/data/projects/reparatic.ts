@@ -11,7 +11,7 @@ const pantalla = (nombre: string, caption: Media['caption']): Media => ({
 })
 
 export const reparaticDetail: ProjectDetail = {
-  manualUrl: 'https://github.com/canoojson/ReparaTIC/blob/master/docs/MANUAL.md',
+  manualPage: true,
 
   features: [
     {
