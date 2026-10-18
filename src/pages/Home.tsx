@@ -1,9 +1,11 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { scrollToSection, useSectionNavigation } from '../hooks/sectionScroll'
+import { Greeter } from '../components/Greeter'
 import { useLang } from '../i18n/useLang'
 import { AboutSection } from '../sections/AboutSection'
 import { ContactSection } from '../sections/ContactSection'
+import { FriendsSection } from '../sections/FriendsSection'
 import { HeroSection } from '../sections/HeroSection'
 import { ProjectsSection } from '../sections/ProjectsSection'
 import { isSection, sectionPath, sections, type SectionId } from '../sections/sections'
@@ -13,6 +15,7 @@ const content: Record<SectionId, ReactNode> = {
   home: <HeroSection />,
   about: <AboutSection />,
   projects: <ProjectsSection />,
+  friends: <FriendsSection />,
   contact: <ContactSection />,
 }
 
@@ -84,6 +87,7 @@ export function Home() {
           {content[id]}
         </section>
       ))}
+      <Greeter />
     </>
   )
 }

@@ -1,4 +1,4 @@
-export const sections = ['home', 'about', 'projects', 'contact'] as const
+export const sections = ['home', 'about', 'projects', 'friends', 'contact'] as const
 export type SectionId = (typeof sections)[number]
 
 export function isSection(value: string | undefined): value is SectionId {

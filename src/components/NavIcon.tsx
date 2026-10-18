@@ -22,6 +22,14 @@ const paths: Record<Section, ReactNode> = {
       <path d="M4 21a8 8 0 0 1 16 0" />
     </>
   ),
+  friends: (
+    <>
+      <circle cx="9" cy="8" r="3.5" />
+      <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+      <path d="M15.5 4.6a3.5 3.5 0 0 1 0 6.8" />
+      <path d="M18 13.8a6.5 6.5 0 0 1 3.5 6.2" />
+    </>
+  ),
   contact: (
     <>
       <rect x="2" y="4" width="20" height="16" rx="2" />

@@ -492,6 +492,114 @@ a:hover { color: var(--accent-hover); }
   place-items: center;
 }
 
+/* ---------- Webs amigas ---------- */
+/* el enlace del título se estira sobre toda la tarjeta; las redes quedan por encima */
+.friend-card { position: relative; }
+.friend-card h3 { margin-bottom: 0.1rem; }
+.friend-card h3 a { color: inherit; }
+.friend-card h3 a::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.friend-domain { color: var(--muted); font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 0.75rem; }
+.socials { position: relative; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.7rem 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: border-color 0.15s, color 0.15s;
+}
+.socials a:hover { border-color: var(--accent); color: var(--accent); }
+.socials svg { width: 15px; height: 15px; fill: currentColor; flex: none; }
+
+/* ---------- Saludo en la portada ---------- */
+.greeter {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.25rem;
+  z-index: 8;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  gap: 0.25rem;
+  transition: opacity 0.35s, transform 0.35s, visibility 0s;
+}
+.greeter-hidden { opacity: 0; transform: translateY(24px); visibility: hidden; transition: opacity 0.35s, transform 0.35s, visibility 0s 0.35s; }
+.greeter-character { width: auto; height: 150px; flex: none; transform-origin: 50% 100%; filter: drop-shadow(0 8px 14px rgb(0 0 0 / 0.22)); }
+[data-theme='dark'] .greeter-character { filter: drop-shadow(0 0 1px rgb(255 255 255 / 0.55)) drop-shadow(0 8px 14px rgb(0 0 0 / 0.5)); }
+
+.greeter-bubble {
+  position: relative;
+  max-width: 500px;
+  margin-bottom: 2.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 16px 40px -16px rgb(0 0 0 / 0.35);
+  transform-origin: 100% 100%;
+}
+/* pico del bocadillo apuntando al personaje, que queda a su derecha */
+.greeter-bubble::before {
+  content: '';
+  position: absolute;
+  right: -7px;
+  bottom: 1.25rem;
+  width: 12px;
+  height: 12px;
+  background: inherit;
+  border-right: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  transform: rotate(45deg);
+}
+.greeter-message { margin: 0 0 0.5rem; font-weight: 700; font-size: 0.95rem; line-height: 1.35; }
+.greeter-bubble ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1.25rem; }
+.greeter-bubble a { display: grid; align-content: start; height: 100%; padding: 0.4rem 0.5rem; margin: 0 -0.5rem; border-radius: 8px; color: var(--text); line-height: 1.35; transition: background-color 0.15s; }
+.greeter-bubble a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.greeter-name { font-weight: 600; font-size: 0.9rem; }
+.greeter-bubble a:hover .greeter-name { color: var(--accent); }
+.greeter-domain { color: var(--accent); font-family: var(--font-mono); font-size: 0.78rem; }
+.greeter-summary { color: var(--muted); font-size: 0.8rem; margin-top: 0.1rem; }
+
+/* entrada: sube, saluda balanceándose y se queda flotando; luego aparece el bocadillo */
+.greeter-greeted .greeter-character {
+  animation:
+    greeter-in 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.4s both,
+    greeter-wave 0.45s ease-in-out 1.1s 3,
+    greeter-float 3.2s ease-in-out 2.6s infinite;
+}
+.greeter-greeted .greeter-bubble { animation: bubble-in 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) 1.4s both; }
+@keyframes greeter-in { from { opacity: 0; transform: translateY(110%); } to { opacity: 1; transform: none; } }
+@keyframes greeter-wave { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-9deg); } 70% { transform: rotate(7deg); } }
+@keyframes greeter-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes bubble-in { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 640px) {
+  .greeter { right: 0.75rem; bottom: 0.75rem; left: 0.75rem; }
+  /* la portada sube su contenido para dejar sitio al saludo */
+  .snap-home .hero { padding: 2rem 0 12.5rem; }
+  .greeter-character { height: 80px; }
+  .greeter-bubble { max-width: 230px; margin-bottom: 2.25rem; padding: 0.6rem 0.75rem; }
+  .greeter-bubble::before { bottom: 0.9rem; }
+  .greeter-message { font-size: 0.85rem; }
+  .greeter-bubble ul { grid-template-columns: minmax(0, 1fr); }
+  .greeter-bubble a { padding: 0.2rem 0.5rem; }
+  .greeter-name { font-size: 0.82rem; }
+  .greeter-summary { display: none; }
+}
+
+/* pantallas bajas: sin descripciones para no tapar la portada */
+@media (max-height: 640px) { .greeter-summary { display: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .greeter-greeted .greeter-character, .greeter-greeted .greeter-bubble { animation: none; }
+}
+
 /* ---------- Project page ---------- */
 .back-link { display: inline-block; color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem; }
 .back-link:hover { color: var(--accent); }
