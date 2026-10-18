@@ -23,5 +23,6 @@ export const profile = {
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/sergio-cano-pomer-a51440259/' },
     { label: 'Instagram', href: 'https://www.instagram.com/canoojson/' },
     { label: 'Bluesky', href: 'https://bsky.app/profile/canoojson.dev' },
+    { label: 'Malt', href: 'https://www.malt.es/profile/canoojson' },
   ],
 }
