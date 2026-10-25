@@ -47,20 +47,20 @@ export const airpodsDetail: ProjectDetail = {
     {
       src: `${dir}/panel-modos.mp4`,
       poster: `${dir}/panel-modos-poster.webp`,
-      width: 900,
-      height: 620,
+      width: 410,
+      height: 626,
       title: { es: 'Panel y modos de escucha', val: "Panell i modes d'escolta", en: 'Panel and listening modes' },
       text: {
-        es: 'Desde la barra: batería de cada auricular y de la caja, cambio de modo de escucha y ajustes.',
-        val: "Des de la barra: bateria de cada auricular i de la caixa, canvi de mode d'escolta i ajustos.",
-        en: 'From the bar: battery of each earbud and the case, listening mode switching and settings.',
+        es: 'Desde la barra: batería de cada auricular y de la caja, cancelación de ruido, adaptativo y sonido ambiente.',
+        val: "Des de la barra: bateria de cada auricular i de la caixa, cancel·lació de soroll, adaptatiu i so ambient.",
+        en: 'From the bar: battery of each earbud and the case, noise cancellation, adaptive and transparency.',
       },
     },
     {
       src: `${dir}/panel-estado.mp4`,
       poster: `${dir}/panel-estado-poster.webp`,
-      width: 600,
-      height: 560,
+      width: 364,
+      height: 580,
       title: { es: 'En tiempo real', val: 'En temps real', en: 'In real time' },
       text: {
         es: 'Al guardar los auriculares y cerrar la tapa, el panel lo refleja al momento y el audio vuelve a tus otros auriculares.',
@@ -147,27 +147,27 @@ export const airpodsDetail: ProjectDetail = {
 
   screenshots: [
     {
-      src: `${dir}/popup.webp`,
-      width: 500,
-      height: 510,
-      caption: { es: 'Popup al abrir la caja', val: 'Finestra en obrir la caixa', en: 'Popup when the case opens' },
-    },
-    {
       src: `${dir}/panel-conectado.webp`,
-      width: 512,
-      height: 576,
+      width: 364,
+      height: 540,
       caption: { es: 'Panel con modos de escucha', val: "Panell amb modes d'escolta", en: 'Panel with listening modes' },
     },
     {
+      src: `${dir}/ecualizador.webp`,
+      width: 364,
+      height: 540,
+      caption: { es: 'Ecualizador', val: 'Equalitzador', en: 'Equalizer' },
+    },
+    {
       src: `${dir}/panel.webp`,
-      width: 512,
-      height: 576,
+      width: 364,
+      height: 540,
       caption: { es: 'Panel sin conectar', val: 'Panell sense connectar', en: 'Panel, not connected' },
     },
     {
       src: `${dir}/ajustes.webp`,
-      width: 512,
-      height: 576,
+      width: 364,
+      height: 540,
       caption: { es: 'Ajustes', val: 'Ajustos', en: 'Settings' },
     },
     {
