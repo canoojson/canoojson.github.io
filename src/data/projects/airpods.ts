@@ -4,20 +4,44 @@ const dir = '/projects/airpods'
 
 export const airpodsDetail: ProjectDetail = {
   license: 'GPL-3.0',
-  youtube: { id: 'zYiF-NJgy94', poster: `${dir}/youtube.webp` },
+  youtube: { id: 'zAYsqjkrPCw', poster: `${dir}/youtube.webp` },
   manualUrl: 'https://github.com/canoojson/airpodsPopUpOnArchLinux#readme',
 
   demos: [
     {
       src: `${dir}/popup-conectar.mp4`,
       poster: `${dir}/popup-conectar-poster.webp`,
-      width: 800,
-      height: 480,
+      width: 500,
+      height: 510,
       title: { es: 'Al abrir la caja', val: 'En obrir la caixa', en: 'When the case opens' },
       text: {
-        es: 'El popup aparece en un segundo. Un clic en Conectar y los AirPods pasan al ordenador.',
-        val: "La finestra emergent apareix en un segon. Un clic en Connectar i els AirPods passen a l'ordinador.",
-        en: 'The popup shows up within a second. One click on Connect and the AirPods switch to the computer.',
+        es: 'El popup aparece en un segundo, con los auriculares y la caja girando. Un clic en Conectar y los AirPods pasan al ordenador.',
+        val: "La finestra emergent apareix en un segon, amb els auriculars i la caixa girant. Un clic en Connectar i els AirPods passen a l'ordinador.",
+        en: 'The popup shows up within a second, with the earbuds and the case spinning. One click on Connect and the AirPods switch to the computer.',
+      },
+    },
+    {
+      src: `${dir}/ecualizador.mp4`,
+      poster: `${dir}/ecualizador-poster.webp`,
+      width: 540,
+      height: 780,
+      title: { es: 'Ecualizador', val: 'Equalitzador', en: 'Equalizer' },
+      text: {
+        es: 'Diez bandas y los preajustes de iOS, que se aplican al instante sin cortar el sonido.',
+        val: "Deu bandes i els preajustos d'iOS, que s'apliquen a l'instant sense tallar el so.",
+        en: 'Ten bands and the iOS presets, applied instantly without cutting the audio.',
+      },
+    },
+    {
+      src: `${dir}/iphone-pc.mp4`,
+      poster: `${dir}/iphone-pc-poster.webp`,
+      width: 960,
+      height: 540,
+      title: { es: 'El iPhone y el PC a la vez', val: "L'iPhone i el PC alhora", en: 'iPhone and PC at once' },
+      text: {
+        es: 'El iPhone manda su sonido al PC por AirPlay y se mezcla con el del ordenador en tus AirPods.',
+        val: "L'iPhone envia el seu so al PC per AirPlay i es mescla amb el de l'ordinador als teus AirPods.",
+        en: "The iPhone sends its audio to the PC over AirPlay and it's mixed with the computer's in your AirPods.",
       },
     },
     {
@@ -88,6 +112,30 @@ export const airpodsDetail: ProjectDetail = {
       },
     },
     {
+      title: { es: 'Ecualizador de 10 bandas', val: 'Equalitzador de 10 bandes', en: '10-band equalizer' },
+      text: {
+        es: 'Preajustes como los de iOS o un modo sencillo con graves, medios y agudos. Solo afecta a los AirPods.',
+        val: "Preajustos com els d'iOS o un mode senzill amb greus, mitjans i aguts. Només afecta als AirPods.",
+        en: 'iOS-style presets or a simple bass, mid and treble mode. It only affects the AirPods.',
+      },
+    },
+    {
+      title: { es: 'iPhone y PC a la vez', val: 'iPhone i PC alhora', en: 'iPhone and PC at once' },
+      text: {
+        es: 'Con UxPlay, el sonido del iPhone llega por AirPlay y se oye junto al del PC, con su propio volumen.',
+        val: "Amb UxPlay, el so de l'iPhone arriba per AirPlay i se sent junt amb el del PC, amb el seu propi volum.",
+        en: "With UxPlay, the iPhone's audio arrives over AirPlay and plays alongside the PC's, with its own volume.",
+      },
+    },
+    {
+      title: { es: 'GNOME y KDE', val: 'GNOME i KDE', en: 'GNOME and KDE' },
+      text: {
+        es: 'Además del plugin de Noctalia, extensión de GNOME Shell y plasmoide de KDE Plasma. En castellano e inglés.',
+        val: 'A més del connector de Noctalia, extensió de GNOME Shell i plasmoide de KDE Plasma. En castellà i anglés.',
+        en: 'Besides the Noctalia plugin, a GNOME Shell extension and a KDE Plasma plasmoid. In Spanish and English.',
+      },
+    },
+    {
       title: { es: 'Todo en local', val: 'Tot en local', en: 'Fully local' },
       text: {
         es: 'Sin internet ni cuenta de iCloud. Solo procesa los anuncios de tus AirPods.',
@@ -100,8 +148,8 @@ export const airpodsDetail: ProjectDetail = {
   screenshots: [
     {
       src: `${dir}/popup.webp`,
-      width: 488,
-      height: 342,
+      width: 500,
+      height: 510,
       caption: { es: 'Popup al abrir la caja', val: 'Finestra en obrir la caixa', en: 'Popup when the case opens' },
     },
     {
@@ -184,6 +232,8 @@ export const airpodsDetail: ProjectDetail = {
       { code: 'airpodsctl status', text: { es: 'Estado actual o último conocido', val: 'Estat actual o últim conegut', en: 'Current or last known state' } },
       { code: 'airpodsctl watch', text: { es: 'Cada cambio en vivo', val: 'Cada canvi en viu', en: 'Every change, live' } },
       { code: 'airpodsctl keys fetch', text: { es: 'Pide las claves a tus AirPods (una vez)', val: 'Demana les claus als teus AirPods (una vegada)', en: 'Fetches your AirPods’ keys (once)' } },
+      { code: 'airpodsctl eq preset rock', text: { es: 'Elige un preajuste del ecualizador', val: "Tria un preajust de l'equalitzador", en: 'Picks an equalizer preset' } },
+      { code: 'airpodsctl airplay 60', text: { es: 'Volumen del iPhone por AirPlay, aparte del resto', val: "Volum de l'iPhone per AirPlay, a banda de la resta", en: 'iPhone volume over AirPlay, separate from the rest' } },
       { code: 'busctl --user call io.github.AirpodsLinux …', text: { es: 'API D-Bus para otros widgets', val: 'API D-Bus per a altres widgets', en: 'D-Bus API for other widgets' } },
     ],
   },
@@ -206,7 +256,11 @@ export const airpodsDetail: ProjectDetail = {
       },
       {
         label: { es: 'Escritorio', val: 'Escriptori', en: 'Desktop' },
-        value: { es: 'Cualquiera; integración completa con Noctalia', val: 'Qualsevol; integració completa amb Noctalia', en: 'Any; full integration with Noctalia' },
+        value: {
+          es: 'Cualquiera; integración completa con Noctalia, y extensión para GNOME y KDE',
+          val: 'Qualsevol; integració completa amb Noctalia, i extensió per a GNOME i KDE',
+          en: 'Any; full integration with Noctalia, plus GNOME and KDE extensions',
+        },
       },
     ],
   },
