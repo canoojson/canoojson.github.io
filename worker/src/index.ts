@@ -2,11 +2,15 @@
  * music.canoojson.dev
  *   /now-playing → { track }: la canción que suena en Spotify o, si no suena nada, la última escuchada.
  *   /top-tracks  → { tracks }: las 5 más escuchadas de las últimas ~4 semanas.
+ *   /now-playing.svg?lang=es|en → tarjeta SVG con la misma canción, para el README del perfil de GitHub.
+ *   /now-playing/open → redirige a la canción en Spotify (enlace de la tarjeta).
  * Guarda las respuestas en la caché de Cloudflare (15 s y 1 h) para no gastar cuota de la API
  * aunque haya muchas visitas.
  *
  * Secretos: SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET. KV MUSIC: refresh_token.
  */
+
+import { renderCard, type Lang } from './card'
 
 interface Env {
   SPOTIFY_CLIENT_ID: string
@@ -110,24 +114,40 @@ const routes: Record<string, { seconds: number; load: (env: Env) => Promise<obje
   '/top-tracks': { seconds: 3600, load: async (env) => ({ tracks: await topTracks(env) }), empty: { tracks: [] } },
 }
 
+type Route = (typeof routes)[string]
+
+// La copia en la caché de Cloudflare dura route.seconds; al navegador se le dice que no guarde nada,
+// porque Cloudflare reescribe el max-age con el "Browser Cache TTL" de la zona (4 h por defecto).
+async function load(route: Route, path: string, url: URL, ctx: ExecutionContext, env: Env): Promise<object> {
+  const cache = caches.default
+  const key = new Request(`${url.origin}${path}`)
+  const hit = await cache.match(key)
+  if (hit) return hit.json()
+  const body = await route.load(env)
+  ctx.waitUntil(cache.put(key, json(body, 200, { 'Cache-Control': `public, max-age=${route.seconds}` })))
+  return body
+}
+
 export default {
   async fetch(request, env, ctx): Promise<Response> {
     if (request.method === 'OPTIONS') return new Response(null, { headers: cors })
     const url = new URL(request.url)
+    if (url.pathname === '/now-playing.svg' || url.pathname === '/now-playing/open') {
+      const { track } = (await load(routes['/now-playing'], '/now-playing', url, ctx, env).catch(() => ({ track: null }))) as {
+        track: Track | null
+      }
+      if (url.pathname === '/now-playing/open') return Response.redirect(track?.url ?? 'https://open.spotify.com/', 302)
+      const lang: Lang = url.searchParams.get('lang') === 'en' ? 'en' : 'es'
+      // camo (el proxy de imágenes de GitHub) respeta Cache-Control: sin caché para que la tarjeta se renueve
+      return new Response(await renderCard(track, lang), {
+        headers: { 'Content-Type': 'image/svg+xml; charset=utf-8', 'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate', ...cors },
+      })
+    }
+
     const route = routes[url.pathname]
     if (!route) return json({ error: 'not found' }, 404)
-
-    // La copia en la caché de Cloudflare dura route.seconds; al navegador se le dice que no guarde nada,
-    // porque Cloudflare reescribe el max-age con el "Browser Cache TTL" de la zona (4 h por defecto).
-    const cache = caches.default
-    const key = new Request(`${url.origin}${url.pathname}`)
-    const hit = await cache.match(key)
-    if (hit) return json(await hit.json(), 200, NO_STORE)
-
     try {
-      const body = await route.load(env)
-      ctx.waitUntil(cache.put(key, json(body, 200, { 'Cache-Control': `public, max-age=${route.seconds}` })))
-      return json(body, 200, NO_STORE)
+      return json(await load(route, url.pathname, url, ctx, env), 200, NO_STORE)
     } catch (error) {
       console.error(error)
       return json({ ...route.empty, error: 'unavailable' }, 503, NO_STORE)
